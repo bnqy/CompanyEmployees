@@ -1,4 +1,7 @@
-﻿namespace CompanyEmployees.Extensions;
+﻿using Contracts;
+using LoggerService;
+
+namespace CompanyEmployees.Extensions;
 
 public static class ServiceExtensions
 {
@@ -23,4 +26,10 @@ public static class ServiceExtensions
 
 		});
 
+	// Configuring Logger service for log messages.
+	// Every time we want to use a logger service, all we need to do is to inject 
+	// it into the constructor of the class that needs it. .NET Core will resolve
+	// that service and the logging features will be available.
+	public static void ConfigLoggerService(this IServiceCollection services) => 
+		services.AddSingleton<ILoggerManager, LoggerManager>();
 }
