@@ -7,6 +7,10 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
+// Repository pattern:
+// to use database = data access layer.
+// Abstraction between data access and business logic layer.
+// Domain layer does not have direct dependencies.
 namespace Repository
 {
 	public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class

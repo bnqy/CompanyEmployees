@@ -13,13 +13,13 @@ namespace Repository
 
 		private readonly Lazy<ICompanyRepository> companyRepository;
 
-		private readonly Lazy<EmployeeRepository> employeeRepository;
+		private readonly Lazy<IEmployeeRepository> employeeRepository;
 
 		public RepositoryManager(RepositoryContext repositoryContext)
 		{
 			this.repositoryContext = repositoryContext;
 			this.companyRepository = new Lazy<ICompanyRepository>(() => new CompanyRepository(repositoryContext));
-			this.employeeRepository = new Lazy<EmployeeRepository>(() => new EmployeeRepository(repositoryContext));
+			this.employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(repositoryContext));
 		}
 
 		public ICompanyRepository Company => this.companyRepository.Value;

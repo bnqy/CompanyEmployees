@@ -8,7 +8,7 @@ namespace CompanyEmployees.ContextFactory
 {
 	// Since our RepositoryContext class is in a Repository project
 	// and not in the main one, this class will help our application
-	// create a derived DbContext instance during the design time.
+	// create a derived DbContext instance during the design time(DESIGN TIME).
 	// This helps us find the RepositoryContext class in another project while executing migrations.
 	// But we have the RepositoryManager service
 	// registration, which happens at runtime, and during that registration, we
@@ -25,7 +25,7 @@ namespace CompanyEmployees.ContextFactory
 
 			var builder = new DbContextOptionsBuilder<RepositoryContext>()
 				.UseSqlServer(config.GetConnectionString("sqlConnection"),
-				b => b.MigrationsAssembly("CompanyEmployees"));
+				b => b.MigrationsAssembly("CompanyEmployees")); // Because migration assembly is not in MAIN project. It is in Repository project. And we changes it to MAIN project.
 
 			return new RepositoryContext(builder.Options);
 		}

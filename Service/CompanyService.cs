@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Entities.Models;
 using Service.Contracts;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,22 @@ namespace Service
 		{
 			this.repositoryManager = repositoryManager;
 			this.loggerManager = loggerManager;
+		}
+
+		public IEnumerable<Company> GetAllCompanies(bool trackChanges)
+		{
+			try
+			{
+				var companies = this.repositoryManager.Company.GetAllCompanies(trackChanges);
+
+				return companies;
+			}
+			catch (Exception ex)
+			{
+				this.loggerManager.LogError($"Something went wrong in {nameof(GetAllCompanies)} method {ex}.");
+
+				throw;
+			}
 		}
 	}
 }
