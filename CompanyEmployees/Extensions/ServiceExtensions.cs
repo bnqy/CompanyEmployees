@@ -1,6 +1,8 @@
 ﻿using Contracts;
 using LoggerService;
 using Repository;
+using Service;
+using Service.Contracts;
 
 namespace CompanyEmployees.Extensions;
 
@@ -38,4 +40,8 @@ public static class ServiceExtensions
 	// To register Repository manager.
 	public static void ConfigRepositoryManager(this IServiceCollection services) =>
 		services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+	// To register Service manager.
+	public static void ConfigServiceManager(this IServiceCollection services) =>
+		services.AddScoped<IServiceManager, ServiceManager>();
 }
