@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using LoggerService;
+using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
 using Service.Contracts;
@@ -44,4 +45,9 @@ public static class ServiceExtensions
 	// To register Service manager.
 	public static void ConfigServiceManager(this IServiceCollection services) =>
 		services.AddScoped<IServiceManager, ServiceManager>();
+
+	// Register RepositoryContext at a Runtime.
+	public static void ConfigSqlContext(this IServiceCollection services, IConfiguration configuration) =>
+		services.AddDbContext<RepositoryContext>(opts =>
+		opts.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
 }
