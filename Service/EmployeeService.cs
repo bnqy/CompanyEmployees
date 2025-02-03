@@ -26,6 +26,27 @@ namespace Service
 			this.mapper = mapper;
 		}
 
+		public EmployeeDto GetEmployee(Guid companyId, Guid id, bool trackChanges)
+		{
+			var company = this.repositoryManager.Company.GetCompany(companyId, trackChanges);
+
+			if (company is null)
+			{
+				throw new CompanyNotFoundException(companyId);
+			}
+
+			var employee = this.repositoryManager.Employee.GetEmployee(companyId, id, trackChanges);
+
+			if (employee is null)
+			{
+				throw new EmployeeNotFoundException(id);
+			}
+
+			var employeeDto = this.mapper.Map<EmployeeDto>(employee);
+
+			return employeeDto;
+		}
+
 		public IEnumerable<EmployeeDto> GetEmployees(Guid companyId, bool trackChanges)
 		{
 			var company = this.repositoryManager.Company.GetCompany(companyId, trackChanges);
