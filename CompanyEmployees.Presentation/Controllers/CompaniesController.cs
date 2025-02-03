@@ -22,16 +22,9 @@ namespace CompanyEmployees.Presentation.Controllers
 		[HttpGet]
 		public IActionResult GetCompanies() // Since there is no [Route] attr. this's route is api/companies. IActioResult returns result + status code.
 		{
-			try
-			{
-				var companies = this.serviceManager.CompanyService.GetAllCompanies(false);
+			var companies = this.serviceManager.CompanyService.GetAllCompanies(false);
 
-				return Ok(companies);
-			}
-			catch
-			{
-				return StatusCode(500, "Internal server error.");
-			}
+			return Ok(companies);
 		}
 	}
 }

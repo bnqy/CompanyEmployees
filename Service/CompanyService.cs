@@ -28,20 +28,11 @@ namespace Service
 
 		public IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges)
 		{
-			try
-			{
-				var companies = this.repositoryManager.Company.GetAllCompanies(trackChanges);
+			var companies = this.repositoryManager.Company.GetAllCompanies(trackChanges);
 
-				var companiesDto = this.mapper.Map<IEnumerable<CompanyDto>>(companies);
+			var companiesDto = this.mapper.Map<IEnumerable<CompanyDto>>(companies);
 
-				return companiesDto;
-			}
-			catch (Exception ex)
-			{
-				this.loggerManager.LogError($"Something went wrong in {nameof(GetAllCompanies)} method {ex}.");
-
-				throw;
-			}
+			return companiesDto;
 		}
 	}
 }
