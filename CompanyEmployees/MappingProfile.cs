@@ -12,6 +12,8 @@ namespace CompanyEmployees
 				//.ForMember(c => c.FullAddress, // this will cause an error
 				.ForCtorParam("FullAddress",
 				opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
+
+			CreateMap<Employee, EmployeeDto>();
 		}
 	}
 }
