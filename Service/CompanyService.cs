@@ -34,5 +34,16 @@ namespace Service
 
 			return companiesDto;
 		}
+
+		public CompanyDto GetCompany(Guid companyId, bool trackChanges)
+		{
+			var company = this.repositoryManager.Company.GetCompany(companyId, trackChanges);
+
+			// check for null
+
+			var companyDto = this.mapper.Map<CompanyDto>(company);
+
+			return companyDto;
+		}
 	}
 }
