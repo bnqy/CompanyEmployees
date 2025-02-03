@@ -786,3 +786,28 @@
 2025-02-03 01:03:43.4152 Trace FileTarget(Name=logfile) has 2 layouts
 2025-02-03 01:03:43.4152 Trace FileTarget(Name=logfile): Using appenderFactory: NLog.Internal.FileAppenders.SingleProcessFileAppender+Factory
 2025-02-03 01:03:43.4152 Info Configuration initialized.
+2025-02-03 01:11:24.7676 Info AppDomain Shutting down. LogFactory closing...
+2025-02-03 01:11:24.8029 Debug Stop watching file-filter 'nlog.config' in directory: C:\Users\Lenovo\source\repos\CompanyEmployees\CompanyEmployees
+2025-02-03 01:11:24.8029 Trace Flushing all 1 targets...
+2025-02-03 01:11:24.8299 Trace ForEachItemInParallel() 1 items
+2025-02-03 01:11:24.8359 Trace FileTarget(Name=logfile): FlushAsync
+2025-02-03 01:11:24.8359 Trace Continuation invoked: 
+2025-02-03 01:11:24.8359 Trace Parallel task completed. 0 items remaining
+2025-02-03 01:11:24.8506 Debug Flush completed
+2025-02-03 01:11:24.8506 Trace FileTarget(Name=logfile): FlushAsync Done
+2025-02-03 01:11:24.8506 Debug Closing logging configuration...
+2025-02-03 01:11:24.8506 Trace Closing FileTarget(Name=logfile)
+2025-02-03 01:11:24.8506 Debug FileTarget(Name=logfile): Closing...
+2025-02-03 01:11:24.8742 Debug FileTarget(Name=logfile): Closed.
+2025-02-03 01:11:24.8742 Trace Closing C:\Users\Lenovo\source\repos\CompanyEmployees\CompanyEmployees\logs\${shortdate}_logfile.txt
+2025-02-03 01:11:24.8817 Trace Closing Layout Renderer: ${literal}
+2025-02-03 01:11:24.8817 Trace Closing Layout Renderer: ${shortdate}
+2025-02-03 01:11:24.8817 Trace Closing Layout Renderer: ${literal}
+2025-02-03 01:11:24.8817 Trace Closing ${longdate} ${level:uppercase=true} ${message}
+2025-02-03 01:11:24.8817 Trace Closing Layout Renderer: ${longdate}
+2025-02-03 01:11:24.8817 Trace Closing Layout Renderer: ${literal}
+2025-02-03 01:11:24.8817 Trace Closing Layout Renderer: ${level}
+2025-02-03 01:11:24.8817 Trace Closing Layout Renderer: ${literal}
+2025-02-03 01:11:24.8817 Trace Closing Layout Renderer: ${message}
+2025-02-03 01:11:24.8817 Debug Finished closing logging configuration.
+2025-02-03 01:11:24.8817 Info LogFactory has been closed.
