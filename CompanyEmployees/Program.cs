@@ -22,6 +22,7 @@ builder.Services.AddControllers(config =>
 	config.ReturnHttpNotAcceptable = true; // 406 if media type supported
 })
 	.AddXmlDataContractSerializerFormatters()
+	.AddCustomCsvFormatter() // Custom CSV formatter
 	.AddApplicationPart(typeof(CompanyEmployees.Presentation.AssemblyReference).Assembly); // To use Controllers in Presentation project. (From main to presentation)
 
 var app = builder.Build();
