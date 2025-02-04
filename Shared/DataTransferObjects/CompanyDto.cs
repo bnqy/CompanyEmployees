@@ -8,5 +8,11 @@ using System.Threading.Tasks;
 // Because we are gonna use this for data transfer only.
 namespace Shared.DataTransferObjects
 {
-	public record CompanyDto(Guid Id, string Name, string FullAddress);
+	// [Serializable] // --> _x003C_FullAddress_x003E_k__BackingField
+	public record CompanyDto 
+	{
+		public Guid Id { get; init; }
+		public string? Name { get; init; }
+		public string? FullAddress { get; set; }
+	};
 }
