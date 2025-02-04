@@ -27,6 +27,17 @@ namespace Service
 			this.mapper = mapper;
 		}
 
+		public CompanyDto CreateCompany(CompanyForCreationDto company)
+		{
+			var companyEntity = this.mapper.Map<Company>(company);
+			this.repositoryManager.Company.CreateCompany(companyEntity);
+			this.repositoryManager.Save();
+
+			var companyDto = this.mapper.Map<CompanyDto>(companyEntity);
+
+			return companyDto;
+		}
+
 		public IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges)
 		{
 			var companies = this.repositoryManager.Company.GetAllCompanies(trackChanges);
