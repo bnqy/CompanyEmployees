@@ -46,7 +46,7 @@ namespace CompanyEmployees.Presentation.Controllers
 
 			var addedCompany = this.serviceManager.CompanyService.CreateCompany(companyForCreationDto);
 
-			return this.CreatedAtRoute("CompanyById", new { id = addedCompany.Id }, addedCompany);
+			return this.CreatedAtRoute("CompanyById", new { id = addedCompany.Id }, addedCompany); // CreatedAtRoute returns 201.
 		}
 	}
 }

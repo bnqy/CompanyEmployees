@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entities.Exceptions;
+using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -24,6 +25,24 @@ namespace Service
 			this.repositoryManager = repositoryManager;
 			this.loggerManager = loggerManager;
 			this.mapper = mapper;
+		}
+
+		public EmployeeDto CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto employeeForCreationDto, bool trackChanges)
+		{
+			var company = this.repositoryManager.Company.GetCompany(companyId, trackChanges);
+
+			if (company is null)
+			{
+				throw new CompanyNotFoundException(companyId);
+			}
+
+			var employee = this.mapper.Map<Employee>(employeeForCreationDto);
+			this.repositoryManager.Employee.CreateEmployeeForCompany(companyId, employee);
+			this.repositoryManager.Save();
+
+			var employeeDto = this.mapper.Map<EmployeeDto>(employee);
+
+			return employeeDto;
 		}
 
 		public EmployeeDto GetEmployee(Guid companyId, Guid id, bool trackChanges)
