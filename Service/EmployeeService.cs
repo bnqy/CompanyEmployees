@@ -45,6 +45,26 @@ namespace Service
 			return employeeDto;
 		}
 
+		public void DeleteEmployeeForCompany(Guid companyId, Guid id, bool trackChanges)
+		{
+			var company = this.repositoryManager.Company.GetCompany(companyId, trackChanges);
+
+			if (company is null)
+			{
+				throw new CompanyNotFoundException(companyId);
+			}
+
+			var employee = this.repositoryManager.Employee.GetEmployee(companyId, id, trackChanges);
+
+			if (employee is null)
+			{
+				throw new EmployeeNotFoundException(id);
+			}
+
+			this.repositoryManager.Employee.DeleteEmployee(employee);
+			this.repositoryManager.Save();
+		}
+
 		public EmployeeDto GetEmployee(Guid companyId, Guid id, bool trackChanges)
 		{
 			var company = this.repositoryManager.Company.GetCompany(companyId, trackChanges);
