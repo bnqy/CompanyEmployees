@@ -86,6 +86,30 @@ namespace Service
 			return employeeDto;
 		}
 
+		public (EmployeeForUpdateDto employeeForPatch, Employee employee) GetEmployeeForPatch(
+			Guid companyId, Guid id, 
+			//EmployeeForUpdateDto employeeForUpdateDto, 
+			bool compTrackChanges, bool empTrackChanges)
+		{
+			var company = this.repositoryManager.Company.GetCompany(companyId, compTrackChanges);
+
+			if (company is null)
+			{
+				throw new CompanyNotFoundException(companyId);
+			}
+
+			var employee = this.repositoryManager.Employee.GetEmployee(companyId, id, empTrackChanges);
+
+			if (employee is null)
+			{
+				throw new EmployeeNotFoundException(id);
+			}
+
+			var employeeForPatch = this.mapper.Map<EmployeeForUpdateDto>(employee);
+
+			return (employeeForPatch, employee);
+		}
+
 		public IEnumerable<EmployeeDto> GetEmployees(Guid companyId, bool trackChanges)
 		{
 			var company = this.repositoryManager.Company.GetCompany(companyId, trackChanges);
@@ -100,6 +124,13 @@ namespace Service
 			var employeesDto = this.mapper.Map<IEnumerable<EmployeeDto>>(employees);
 
 			return employeesDto;
+		}
+
+		public void SaveChangesForPatch(EmployeeForUpdateDto employeeForPatch, Employee employee)
+		{
+			this.mapper.Map(employeeForPatch, employee);
+
+			this.repositoryManager.Save();
 		}
 
 		public void UpdateEmployeeForCompany(Guid companyId, Guid id, EmployeeForUpdateDto employeeForUpdateDto, bool compTrackChanges, bool empTrackChanges)
