@@ -89,6 +89,11 @@ namespace CompanyEmployees.Presentation.Controllers
 				return BadRequest("CompanyForUpdateDto is null");
 			}
 
+			if (!ModelState.IsValid)
+			{
+				return UnprocessableEntity(ModelState);
+			}
+
 			this.serviceManager.CompanyService.UpdateCompany(id, companyForUpdateDto, true);
 
 			return NoContent();
