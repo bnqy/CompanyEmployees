@@ -95,7 +95,14 @@ namespace CompanyEmployees.Presentation.Controllers
 
 			var result = this.serviceManager.EmployeeService.GetEmployeeForPatch(companyId, id, false, true);
 
-			patchDocument.ApplyTo(result.employeeForPatch);
+			patchDocument.ApplyTo(result.employeeForPatch, ModelState);
+
+			TryValidateModel(result.employeeForPatch);
+
+			if (!ModelState.IsValid)
+			{
+				return UnprocessableEntity(ModelState);
+			}
 
 			this.serviceManager.EmployeeService.SaveChangesForPatch(result.employeeForPatch, result.employee);
 
