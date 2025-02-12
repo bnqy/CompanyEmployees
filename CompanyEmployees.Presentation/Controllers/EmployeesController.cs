@@ -45,6 +45,11 @@ namespace CompanyEmployees.Presentation.Controllers
 				return BadRequest("EmployeeForCreationDto is null.");
 			}
 
+			if (!ModelState.IsValid)
+			{
+				return UnprocessableEntity(ModelState);
+			}
+
 			var employeeDto = this.serviceManager.EmployeeService.CreateEmployeeForCompany(companyId, employeeForCreationDto, false);
 
 			return CreatedAtRoute("GetEmployeeForCompany",  new { companyId, id = employeeDto.Id}, employeeDto);

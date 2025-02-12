@@ -54,6 +54,11 @@ namespace CompanyEmployees.Presentation.Controllers
 				return this.BadRequest("CompanyForCreationDto is null.");
 			}
 
+			if (!ModelState.IsValid)
+			{
+				return UnprocessableEntity(ModelState);
+			}
+
 			var addedCompany = this.serviceManager.CompanyService.CreateCompany(companyForCreationDto);
 
 			return this.CreatedAtRoute("CompanyById", new { id = addedCompany.Id }, addedCompany); // CreatedAtRoute returns 201.
