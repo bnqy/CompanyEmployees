@@ -22,23 +22,23 @@ namespace CompanyEmployees.Presentation.Controllers
 		}
 
 		[HttpGet] // companyId -- will be mapped from the main above route. So we do not need to specify here.
-		public IActionResult GetEmployeesForCompany(Guid companyId)
+		public async Task<IActionResult> GetEmployeesForCompany(Guid companyId)
 		{
-			var employees = this.serviceManager.EmployeeService.GetEmployees(companyId, false);
+			var employees = await this.serviceManager.EmployeeService.GetEmployeesAsync(companyId, false);
 
 			return Ok(employees);
 		}
 
 		[HttpGet("{id:guid}", Name = "GetEmployeeForCompany")]
-		public IActionResult GetEmployeeForCompany(Guid companyId, Guid id)
+		public async Task<IActionResult> GetEmployeeForCompany(Guid companyId, Guid id)
 		{
-			var employee = this.serviceManager.EmployeeService.GetEmployee(companyId, id, false);
+			var employee = await this.serviceManager.EmployeeService.GetEmployeeAsync(companyId, id, false);
 
 			return Ok(employee);
 		}
 
 		[HttpPost]
-		public IActionResult CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employeeForCreationDto)
+		public async Task<IActionResult> CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employeeForCreationDto)
 		{
 			if (employeeForCreationDto == null)
 			{
@@ -50,21 +50,21 @@ namespace CompanyEmployees.Presentation.Controllers
 				return UnprocessableEntity(ModelState);
 			}
 
-			var employeeDto = this.serviceManager.EmployeeService.CreateEmployeeForCompany(companyId, employeeForCreationDto, false);
+			var employeeDto = await this.serviceManager.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employeeForCreationDto, false);
 
 			return CreatedAtRoute("GetEmployeeForCompany",  new { companyId, id = employeeDto.Id}, employeeDto);
 		}
 
 		[HttpDelete("{id:guid}")]
-		public IActionResult DeleteEmployeeForCompany(Guid companyId, Guid id)
+		public async Task<IActionResult> DeleteEmployeeForCompany(Guid companyId, Guid id)
 		{
-			this.serviceManager.EmployeeService.DeleteEmployeeForCompany(companyId, id, false);
+			await this.serviceManager.EmployeeService.DeleteEmployeeForCompanyAsync(companyId, id, false);
 
 			return NoContent();
 		}
 
 		[HttpPut("{id:guid}")]
-		public IActionResult UpdateEmployeeForCompany(Guid companyId,
+		public async Task<IActionResult> UpdateEmployeeForCompany(Guid companyId,
 			Guid id, 
 			[FromBody] EmployeeForUpdateDto employeeForUpdateDto)
 		{
@@ -78,13 +78,13 @@ namespace CompanyEmployees.Presentation.Controllers
 				return UnprocessableEntity(ModelState);
 			}
 
-			this.serviceManager.EmployeeService.UpdateEmployeeForCompany(companyId, id, employeeForUpdateDto, false, true);
+			await this.serviceManager.EmployeeService.UpdateEmployeeForCompanyAsync(companyId, id, employeeForUpdateDto, false, true);
 
 			return NoContent();
 		}
 
 		[HttpPatch("{id:guid}")]
-		public IActionResult PatchingUpdateEmployeeForCompany(Guid companyId,
+		public async Task<IActionResult> PatchingUpdateEmployeeForCompany(Guid companyId,
 			Guid id,
 			[FromBody] JsonPatchDocument<EmployeeForUpdateDto> patchDocument)
 		{
@@ -93,7 +93,7 @@ namespace CompanyEmployees.Presentation.Controllers
 				return BadRequest("JsonPatchDocument is null.");
 			}
 
-			var result = this.serviceManager.EmployeeService.GetEmployeeForPatch(companyId, id, false, true);
+			var result = await this.serviceManager.EmployeeService.GetEmployeeForPatchAsync(companyId, id, false, true);
 
 			patchDocument.ApplyTo(result.employeeForPatch, ModelState);
 
@@ -104,7 +104,7 @@ namespace CompanyEmployees.Presentation.Controllers
 				return UnprocessableEntity(ModelState);
 			}
 
-			this.serviceManager.EmployeeService.SaveChangesForPatch(result.employeeForPatch, result.employee);
+			await this.serviceManager.EmployeeService.SaveChangesForPatchAsync(result.employeeForPatch, result.employee);
 
 			return NoContent();
 		}

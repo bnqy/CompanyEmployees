@@ -23,31 +23,31 @@ namespace CompanyEmployees.Presentation.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult GetCompanies() // Since there is no [Route] attr. this's route is api/companies. IActioResult returns result + status code.
+		public async Task<IActionResult> GetCompanies() // Since there is no [Route] attr. this's route is api/companies. IActioResult returns result + status code.
 		{
-			var companies = this.serviceManager.CompanyService.GetAllCompanies(false);
+			var companies = await this.serviceManager.CompanyService.GetAllCompaniesAsync(false);
 
 			return Ok(companies);
 		}
 
 		[HttpGet("{id:guid}", Name = "CompanyById")]
-		public IActionResult GetCompany(Guid id) // /api/companies/id
+		public async Task<IActionResult> GetCompany(Guid id) // /api/companies/id
 		{
-			var company = this.serviceManager.CompanyService.GetCompany(id, false);
+			var company = await this.serviceManager.CompanyService.GetCompanyAsync(id, false);
 
 			return Ok(company);
 		}
 
 		[HttpGet("collection/({ids})", Name = "CompanyCollection")]
-		public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
+		public async Task<IActionResult> GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
 		{
-			var companies = this.serviceManager.CompanyService.GetByIds(ids, false);
+			var companies = await this.serviceManager.CompanyService.GetByIdsAsync(ids, false);
 
 			return Ok(companies);
 		}
 
 		[HttpPost]
-		public IActionResult CreateCompany([FromBody] CompanyForCreationDto companyForCreationDto)
+		public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto companyForCreationDto)
 		{
 			if (companyForCreationDto is null)
 			{
@@ -59,29 +59,29 @@ namespace CompanyEmployees.Presentation.Controllers
 				return UnprocessableEntity(ModelState);
 			}
 
-			var addedCompany = this.serviceManager.CompanyService.CreateCompany(companyForCreationDto);
+			var addedCompany = await this.serviceManager.CompanyService.CreateCompanyAsync(companyForCreationDto);
 
 			return this.CreatedAtRoute("CompanyById", new { id = addedCompany.Id }, addedCompany); // CreatedAtRoute returns 201.
 		}
 
 		[HttpPost("collection")]
-		public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyForCreationDtos)
+		public async Task<IActionResult> CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyForCreationDtos)
 		{
-			var companiesDto = this.serviceManager.CompanyService.CreateCompanyCollection(companyForCreationDtos);
+			var companiesDto = await this.serviceManager.CompanyService.CreateCompanyCollectionAsync(companyForCreationDtos);
 
 			return CreatedAtRoute("CompanyCollection", new { companiesDto.ids }, companiesDto.companies);
 		}
 
 		[HttpDelete("{id:guid}")]
-		public IActionResult DeleteCompany(Guid id)
+		public async Task<IActionResult> DeleteCompany(Guid id)
 		{
-			this.serviceManager.CompanyService.DeleteCompany(id, false);
+			await this.serviceManager.CompanyService.DeleteCompanyAsync(id, false);
 
 			return NoContent();
 		}
 
 		[HttpPut("{id:guid}")]
-		public IActionResult UpdateCompany(Guid id, 
+		public async Task<IActionResult> UpdateCompany(Guid id, 
 			[FromBody] CompanyForUpdateDto companyForUpdateDto)
 		{
 			if (companyForUpdateDto is null)
@@ -94,7 +94,7 @@ namespace CompanyEmployees.Presentation.Controllers
 				return UnprocessableEntity(ModelState);
 			}
 
-			this.serviceManager.CompanyService.UpdateCompany(id, companyForUpdateDto, true);
+			await this.serviceManager.CompanyService.UpdateCompanyAsync(id, companyForUpdateDto, true);
 
 			return NoContent();
 		}
