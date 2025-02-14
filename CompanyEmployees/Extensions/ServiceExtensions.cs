@@ -18,7 +18,9 @@ public static class ServiceExtensions
 			{
 				builder.AllowAnyOrigin() // WithOrigins("https://example.com") for concerete origin
 				.AllowAnyMethod() // WithMethods("POST", "GET") for specific methods
-				.AllowAnyHeader(); // WithHeaders("accept", "content-type") for specific headers.
+				.AllowAnyHeader() // WithHeaders("accept", "content-type") for specific headers.
+				.WithExposedHeaders("X-Pagination"); // Eneble client app to read new header.
+
 			});
 		});
 	}
