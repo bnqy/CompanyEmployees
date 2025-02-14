@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using CompanyEmployees.Presentation.ActionFilters;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -38,17 +39,18 @@ namespace CompanyEmployees.Presentation.Controllers
 		}
 
 		[HttpPost]
+		[ServiceFilter(typeof(ValidationFilterAttribute))]
 		public async Task<IActionResult> CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employeeForCreationDto)
 		{
-			if (employeeForCreationDto == null)
+			/*if (employeeForCreationDto == null)
 			{
 				return BadRequest("EmployeeForCreationDto is null.");
-			}
+			}*/
 
-			if (!ModelState.IsValid)
+			/*if (!ModelState.IsValid)
 			{
 				return UnprocessableEntity(ModelState);
-			}
+			}*/
 
 			var employeeDto = await this.serviceManager.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employeeForCreationDto, false);
 
@@ -64,19 +66,20 @@ namespace CompanyEmployees.Presentation.Controllers
 		}
 
 		[HttpPut("{id:guid}")]
+		[ServiceFilter(typeof(ValidationFilterAttribute))]
 		public async Task<IActionResult> UpdateEmployeeForCompany(Guid companyId,
 			Guid id, 
 			[FromBody] EmployeeForUpdateDto employeeForUpdateDto)
 		{
-			if (employeeForUpdateDto is null)
+			/*if (employeeForUpdateDto is null)
 			{
 				return BadRequest("EmployeeForUpdateDto is null.");
-			}
+			}*/
 
-			if (!ModelState.IsValid)
+			/*if (!ModelState.IsValid)
 			{
 				return UnprocessableEntity(ModelState);
-			}
+			}*/
 
 			await this.serviceManager.EmployeeService.UpdateEmployeeForCompanyAsync(companyId, id, employeeForUpdateDto, false, true);
 
