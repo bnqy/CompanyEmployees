@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,10 @@ namespace CompanyEmployees.Presentation.Controllers
 		}
 
 		[HttpGet] // companyId -- will be mapped from the main above route. So we do not need to specify here.
-		public async Task<IActionResult> GetEmployeesForCompany(Guid companyId)
+		public async Task<IActionResult> GetEmployeesForCompany(Guid companyId,
+			[FromQuery] EmployeeParameters employeeParameters) // query params will be used.
 		{
-			var employees = await this.serviceManager.EmployeeService.GetEmployeesAsync(companyId, false);
+			var employees = await this.serviceManager.EmployeeService.GetEmployeesAsync(companyId, employeeParameters, false);
 
 			return Ok(employees);
 		}
