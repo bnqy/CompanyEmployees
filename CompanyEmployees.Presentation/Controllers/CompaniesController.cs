@@ -1,4 +1,5 @@
-﻿using CompanyEmployees.Presentation.ModelBinders;
+﻿using CompanyEmployees.Presentation.ActionFilters;
+using CompanyEmployees.Presentation.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -47,17 +48,18 @@ namespace CompanyEmployees.Presentation.Controllers
 		}
 
 		[HttpPost]
+		[ServiceFilter(typeof(ValidationFilterAttribute))]
 		public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto companyForCreationDto)
 		{
-			if (companyForCreationDto is null)
+			/*if (companyForCreationDto is null)
 			{
 				return this.BadRequest("CompanyForCreationDto is null.");
-			}
+			}*/
 
-			if (!ModelState.IsValid)
+			/*if (!ModelState.IsValid)
 			{
 				return UnprocessableEntity(ModelState);
-			}
+			}*/
 
 			var addedCompany = await this.serviceManager.CompanyService.CreateCompanyAsync(companyForCreationDto);
 
@@ -81,18 +83,19 @@ namespace CompanyEmployees.Presentation.Controllers
 		}
 
 		[HttpPut("{id:guid}")]
+		[ServiceFilter(typeof(ValidationFilterAttribute))]
 		public async Task<IActionResult> UpdateCompany(Guid id, 
 			[FromBody] CompanyForUpdateDto companyForUpdateDto)
 		{
-			if (companyForUpdateDto is null)
+			/*if (companyForUpdateDto is null)
 			{
 				return BadRequest("CompanyForUpdateDto is null");
-			}
+			}*/
 
-			if (!ModelState.IsValid)
+			/*if (!ModelState.IsValid)
 			{
 				return UnprocessableEntity(ModelState);
-			}
+			}*/
 
 			await this.serviceManager.CompanyService.UpdateCompanyAsync(id, companyForUpdateDto, true);
 
