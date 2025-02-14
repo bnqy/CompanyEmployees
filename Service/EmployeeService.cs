@@ -125,8 +125,16 @@ namespace Service
 			return (employeeForPatch, employee);
 		}
 
-		public async Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
+		public async Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)> GetEmployeesAsync(
+			Guid companyId, 
+			EmployeeParameters employeeParameters, 
+			bool trackChanges)
 		{
+			if (!employeeParameters.ValidAgeRange)
+			{
+				throw new MaxAgeRangeBadRequestException();
+			}
+
 			await this.CheckIfCompanyExists(companyId, trackChanges);
 
 			var employeesWithMetaData = await this.repositoryManager.Employee.GetEmployeesAsync(companyId, employeeParameters, trackChanges);
