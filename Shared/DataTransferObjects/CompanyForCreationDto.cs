@@ -7,5 +7,8 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
-	public record CompanyForCreationDto : CompanyForManipulationDto;
+	public record CompanyForCreationDto : CompanyForManipulationDto
+	{
+		public IEnumerable<EmployeeForCreationDto>? Employees { get; init; }
+	};
 }

@@ -11,16 +11,14 @@ namespace Shared.DataTransferObjects
 	{
 		[Required(ErrorMessage = "Name is required.")]
 		[MaxLength(30, ErrorMessage = "MaxLength of Name is 30.")]
-		public string? Name { get; set; }
+		public string? Name { get; init; }
 
 		[Required(ErrorMessage = "Address is required.")]
 		[MaxLength(30, ErrorMessage = "MaxLength of Address is 30.")]
-		public string? Address { get; set; }
+		public string? Address { get; init; }
 
 		[Required(ErrorMessage = "Country is required.")]
 		[MaxLength(10, ErrorMessage = "MaxLength of Address is 10.")]
-		public string? Country { get; set; }
-
-		public IEnumerable<EmployeeForCreationDto> Employees { get; set; }
+		public string? Country { get; init; }
 	}
 }
