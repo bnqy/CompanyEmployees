@@ -6,6 +6,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,12 +64,7 @@ namespace Service
 
 		public async Task DeleteCompanyAsync(Guid id, bool trackChanges)
 		{
-			var company = await this.repositoryManager.Company.GetCompanyAsync(id, trackChanges);
-
-			if (company is null)
-			{
-				throw new CompanyNotFoundException(id);
-			}
+			var company = await this.GetCompanyAndCheckIfItExists(id, trackChanges);
 
 			this.repositoryManager.Company.DeleteCompany(company);
 
@@ -105,12 +101,7 @@ namespace Service
 
 		public async Task<CompanyDto> GetCompanyAsync(Guid companyId, bool trackChanges)
 		{
-			var company = await this.repositoryManager.Company.GetCompanyAsync(companyId, trackChanges);
-
-			if (company is null)
-			{
-				throw new CompanyNotFoundException(companyId);
-			}
+			var company = await this.GetCompanyAndCheckIfItExists(companyId, trackChanges);
 
 			var companyDto = this.mapper.Map<CompanyDto>(company);
 
@@ -119,16 +110,23 @@ namespace Service
 
 		public async Task UpdateCompanyAsync(Guid companyId, CompanyForUpdateDto companyForUpdateDto, bool trackChanges)
 		{
-			var company = await this.repositoryManager.Company.GetCompanyAsync(companyId, trackChanges);
-
-			if (company is null)
-			{
-				throw new CompanyNotFoundException(companyId);
-			}
+			var company = await this.GetCompanyAndCheckIfItExists(companyId, trackChanges);
 
 			this.mapper.Map(companyForUpdateDto, company);
 
 			await this.repositoryManager.SaveAsync();
+		}
+
+		private async Task<Company> GetCompanyAndCheckIfItExists(Guid id, bool trackChanges)
+		{
+			var company = await this.repositoryManager.Company.GetCompanyAsync(id, trackChanges);
+
+			if (company is null)
+			{
+				throw new CompanyNotFoundException(id);
+			}
+
+			return company;
 		}
 	}
 }
