@@ -2,6 +2,7 @@
 using LoggerService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
@@ -102,6 +103,7 @@ public static class ServiceExtensions
 			opt.ReportApiVersions = true; // Adds api version to responce header.
 			opt.AssumeDefaultVersionWhenUnspecified = true;
 			opt.DefaultApiVersion = new ApiVersion(1, 0);
+			opt.ApiVersionReader = new HeaderApiVersionReader("api-version"); // Get version from header.
 		});
 	}
 }
