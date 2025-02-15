@@ -23,7 +23,7 @@ namespace CompanyEmployees.Presentation.Controllers
 			this.serviceManager = serviceManager;
 		}
 
-		[HttpGet]
+		[HttpGet(Name = "GetCompanies")]
 		public async Task<IActionResult> GetCompanies() // Since there is no [Route] attr. this's route is api/companies. IActioResult returns result + status code.
 		{
 			var companies = await this.serviceManager.CompanyService.GetAllCompaniesAsync(false);
@@ -47,7 +47,7 @@ namespace CompanyEmployees.Presentation.Controllers
 			return Ok(companies);
 		}
 
-		[HttpPost]
+		[HttpPost(Name = "CreateCompany")]
 		[ServiceFilter(typeof(ValidationFilterAttribute))]
 		public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto companyForCreationDto)
 		{
