@@ -18,10 +18,10 @@ namespace Service
 		public ServiceManager(IRepositoryManager repositoryManager,
 			ILoggerManager loggerManager,
 			IMapper mapper,
-			IDataShaper<EmployeeDto> dataShaper)
+			IEmployeeLinks employeeLinks)
 		{
 			this.companyService = new Lazy<ICompanyService>(() => new CompanyService(repositoryManager, loggerManager, mapper));
-			this.employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, loggerManager, mapper, dataShaper));
+			this.employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, loggerManager, mapper, employeeLinks));
 		}
 
 

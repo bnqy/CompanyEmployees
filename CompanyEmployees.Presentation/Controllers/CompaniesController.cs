@@ -51,16 +51,6 @@ namespace CompanyEmployees.Presentation.Controllers
 		[ServiceFilter(typeof(ValidationFilterAttribute))]
 		public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto companyForCreationDto)
 		{
-			/*if (companyForCreationDto is null)
-			{
-				return this.BadRequest("CompanyForCreationDto is null.");
-			}*/
-
-			/*if (!ModelState.IsValid)
-			{
-				return UnprocessableEntity(ModelState);
-			}*/
-
 			var addedCompany = await this.serviceManager.CompanyService.CreateCompanyAsync(companyForCreationDto);
 
 			return this.CreatedAtRoute("CompanyById", new { id = addedCompany.Id }, addedCompany); // CreatedAtRoute returns 201.
@@ -87,16 +77,6 @@ namespace CompanyEmployees.Presentation.Controllers
 		public async Task<IActionResult> UpdateCompany(Guid id, 
 			[FromBody] CompanyForUpdateDto companyForUpdateDto)
 		{
-			/*if (companyForUpdateDto is null)
-			{
-				return BadRequest("CompanyForUpdateDto is null");
-			}*/
-
-			/*if (!ModelState.IsValid)
-			{
-				return UnprocessableEntity(ModelState);
-			}*/
-
 			await this.serviceManager.CompanyService.UpdateCompanyAsync(id, companyForUpdateDto, true);
 
 			return NoContent();

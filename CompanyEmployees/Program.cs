@@ -1,5 +1,6 @@
 using CompanyEmployees.Extensions;
 using CompanyEmployees.Presentation.ActionFilters;
+using CompanyEmployees.Utility;
 using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ builder.Services.ConfigIISIntegration();
 builder.Services.ConfigLoggerService();
 
 builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
 
 builder.Services.ConfigRepositoryManager();
 builder.Services.ConfigServiceManager();
@@ -31,6 +33,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 });
 
 builder.Services.AddScoped<ValidationFilterAttribute>();
+builder.Services.AddScoped<ValidateMediaTypeAttribute>();
 
 builder.Services.AddControllers(config =>
 {
@@ -41,6 +44,8 @@ builder.Services.AddControllers(config =>
 	.AddXmlDataContractSerializerFormatters()
 	.AddCustomCsvFormatter() // Custom CSV formatter
 	.AddApplicationPart(typeof(CompanyEmployees.Presentation.AssemblyReference).Assembly); // To use Controllers in Presentation project. (From main to presentation)
+
+builder.Services.AddCustomMediaTypes(); // links.
 
 var app = builder.Build();
 

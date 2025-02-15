@@ -1,4 +1,5 @@
 ﻿using CompanyEmployees.Presentation.ActionFilters;
+using Entities.LinkModels;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -25,15 +26,20 @@ namespace CompanyEmployees.Presentation.Controllers
 		}
 
 		[HttpGet] // companyId -- will be mapped from the main above route. So we do not need to specify here.
+		[ServiceFilter(typeof(ValidateMediaTypeAttribute))]
 		public async Task<IActionResult> GetEmployeesForCompany(Guid companyId,
 			[FromQuery] EmployeeParameters employeeParameters) // query params will be used.
 		{
-			var employeesPagedResult = await this.serviceManager.EmployeeService.GetEmployeesAsync(companyId, employeeParameters, false);
+			var linkParams = new LinkParameters(employeeParameters, HttpContext);
+
+			var employeesPagedResult = await this.serviceManager.EmployeeService.GetEmployeesAsync(
+				companyId, linkParams, false);
 
 			Response.Headers.Add("X-Pagination",
 				JsonSerializer.Serialize(employeesPagedResult.metaData));
 
-			return Ok(employeesPagedResult.employees);
+			return employeesPagedResult.linkResponse.HasLinks ? Ok(employeesPagedResult.linkResponse.LinkedEntities) :
+				Ok(employeesPagedResult.linkResponse.ShapedEntities);
 		}
 
 		[HttpGet("{id:guid}", Name = "GetEmployeeForCompany")]
@@ -48,16 +54,6 @@ namespace CompanyEmployees.Presentation.Controllers
 		[ServiceFilter(typeof(ValidationFilterAttribute))]
 		public async Task<IActionResult> CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employeeForCreationDto)
 		{
-			/*if (employeeForCreationDto == null)
-			{
-				return BadRequest("EmployeeForCreationDto is null.");
-			}*/
-
-			/*if (!ModelState.IsValid)
-			{
-				return UnprocessableEntity(ModelState);
-			}*/
-
 			var employeeDto = await this.serviceManager.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employeeForCreationDto, false);
 
 			return CreatedAtRoute("GetEmployeeForCompany",  new { companyId, id = employeeDto.Id}, employeeDto);
@@ -77,16 +73,6 @@ namespace CompanyEmployees.Presentation.Controllers
 			Guid id, 
 			[FromBody] EmployeeForUpdateDto employeeForUpdateDto)
 		{
-			/*if (employeeForUpdateDto is null)
-			{
-				return BadRequest("EmployeeForUpdateDto is null.");
-			}*/
-
-			/*if (!ModelState.IsValid)
-			{
-				return UnprocessableEntity(ModelState);
-			}*/
-
 			await this.serviceManager.EmployeeService.UpdateEmployeeForCompanyAsync(companyId, id, employeeForUpdateDto, false, true);
 
 			return NoContent();
