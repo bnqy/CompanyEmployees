@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 using NLog;
+using Service.DataShaping;
+using Shared.DataTransferObjects;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,9 @@ LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), @"\n
 builder.Services.ConfigCors();
 builder.Services.ConfigIISIntegration();
 builder.Services.ConfigLoggerService();
+
+builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+
 builder.Services.ConfigRepositoryManager();
 builder.Services.ConfigServiceManager();
 builder.Services.ConfigSqlContext(builder.Configuration);
