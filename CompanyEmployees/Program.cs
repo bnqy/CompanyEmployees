@@ -19,6 +19,7 @@ builder.Services.ConfigCors();
 builder.Services.ConfigIISIntegration();
 builder.Services.ConfigLoggerService();
 
+builder.Services.ConfigVersioning();
 builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
 builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
 

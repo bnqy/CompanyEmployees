@@ -93,4 +93,15 @@ public static class ServiceExtensions
 			}
 		});
 	}
+
+	// Api versioning.
+	public static void ConfigVersioning(this IServiceCollection services)
+	{
+		services.AddApiVersioning(opt =>
+		{
+			opt.ReportApiVersions = true; // Adds api version to responce header.
+			opt.AssumeDefaultVersionWhenUnspecified = true;
+			opt.DefaultApiVersion = new ApiVersion(1, 0);
+		});
+	}
 }
