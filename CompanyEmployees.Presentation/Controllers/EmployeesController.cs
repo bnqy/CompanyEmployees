@@ -27,6 +27,7 @@ namespace CompanyEmployees.Presentation.Controllers
 
 		[HttpGet] // companyId -- will be mapped from the main above route. So we do not need to specify here.
 		[ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+		[HttpHead]
 		public async Task<IActionResult> GetEmployeesForCompany(Guid companyId,
 			[FromQuery] EmployeeParameters employeeParameters) // query params will be used.
 		{
