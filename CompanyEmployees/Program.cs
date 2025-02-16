@@ -57,6 +57,7 @@ builder.Services.AddCustomMediaTypes(); // links.
 
 builder.Services.AddAuthentication();
 builder.Services.ConfigIdentity();
+builder.Services.ConfigJWT(builder.Configuration);
 
 var app = builder.Build();
 
