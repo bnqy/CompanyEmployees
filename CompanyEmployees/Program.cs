@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using CompanyEmployees.Extensions;
 using CompanyEmployees.Presentation.ActionFilters;
 using CompanyEmployees.Utility;
@@ -19,6 +20,9 @@ builder.Services.ConfigCors();
 builder.Services.ConfigIISIntegration();
 builder.Services.ConfigLoggerService();
 
+builder.Services.AddMemoryCache(); // AspNetCoreRateLimit uses a memory cache to store its rules and counters.
+builder.Services.ConfigRateLimiting();
+builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigResponseCaching();
 builder.Services.ConfigHttpCacheHeaders();
 builder.Services.ConfigVersioning();
@@ -78,6 +82,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
 	ForwardedHeaders = ForwardedHeaders.All
 });
+
+app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");
 app.UseResponseCaching(); // recommended after CORS
 app.UseHttpCacheHeaders();
