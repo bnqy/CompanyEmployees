@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using LoggerService;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -111,5 +112,20 @@ public static class ServiceExtensions
 	public static void ConfigResponseCaching(this IServiceCollection services)
 	{
 		services.AddResponseCaching();
+	}
+
+	// Caching response headers
+	public static void ConfigHttpCacheHeaders(this IServiceCollection services)
+	{
+		services.AddHttpCacheHeaders(
+			(expirationOpt) =>
+			{
+				expirationOpt.MaxAge = 100;
+				expirationOpt.CacheLocation = CacheLocation.Private;
+			},
+			(validationOpt) =>
+			{
+				validationOpt.MustRevalidate = true;
+			});
 	}
 }

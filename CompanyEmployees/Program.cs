@@ -20,6 +20,7 @@ builder.Services.ConfigIISIntegration();
 builder.Services.ConfigLoggerService();
 
 builder.Services.ConfigResponseCaching();
+builder.Services.ConfigHttpCacheHeaders();
 builder.Services.ConfigVersioning();
 builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
 builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
@@ -79,6 +80,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 });
 app.UseCors("CorsPolicy");
 app.UseResponseCaching(); // recommended after CORS
+app.UseHttpCacheHeaders();
 
 app.UseAuthorization();
 
