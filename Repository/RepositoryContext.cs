@@ -25,6 +25,7 @@ namespace Repository
 
 			modelBuilder.ApplyConfiguration(new CompanyConfiguration()); // Apply initial data configs.
 			modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+			modelBuilder.ApplyConfiguration(new RoleConfiguration());
 		}
 
 		public DbSet<Company>? Companies { get; set; }
