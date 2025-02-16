@@ -49,7 +49,9 @@ namespace CompanyEmployees.Presentation.Controllers
 				return Unauthorized();
 			}
 
-			return Ok(new {Token = await serviceManager.AuthenticationService.CreateToken()});
+			var tokenDto = await serviceManager.AuthenticationService.CreateToken(populateExp: true);
+
+			return Ok(tokenDto);
 		}
 	}
 }

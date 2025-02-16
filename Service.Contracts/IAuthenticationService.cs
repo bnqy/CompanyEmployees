@@ -13,6 +13,7 @@ namespace Service.Contracts
 		// Executes registration logis. Returns identity result.
 		Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistrationDto);
 		Task<bool> ValidateUser(UserForAuthenticationDto userForAuthenticationDto);
-		Task<string> CreateToken();
+		Task<TokenDto> CreateToken(bool populateExp);
+		Task<TokenDto> RefreshToken(TokenDto tokenDto);
 	}
 }

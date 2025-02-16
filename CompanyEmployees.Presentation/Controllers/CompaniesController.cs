@@ -28,7 +28,7 @@ namespace CompanyEmployees.Presentation.Controllers
 		}
 
 		[HttpGet(Name = "GetCompanies")]
-		[Authorize]
+		[Authorize(Roles = "Manager")]
 		public async Task<IActionResult> GetCompanies() // Since there is no [Route] attr. this's route is api/companies. IActioResult returns result + status code.
 		{
 			var companies = await this.serviceManager.CompanyService.GetAllCompaniesAsync(false);
