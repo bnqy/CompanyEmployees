@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace CompanyEmployees.Presentation.Controllers
 {
-	[ApiVersion("1.0")]
+	[ApiExplorerSettings(GroupName = "v1")]
 	[Route("api/companies")]
 	[ApiController]
 	//[ResponseCache(CacheProfileName = "60SecondsDuration")]  // Marvin.Cache.Headers will provide this.
@@ -27,6 +27,10 @@ namespace CompanyEmployees.Presentation.Controllers
 			this.serviceManager = serviceManager;
 		}
 
+		/// <summary>
+		/// Gets list of all companies.
+		/// </summary>
+		/// <returns>The companies list.</returns>
 		[HttpGet(Name = "GetCompanies")]
 		[Authorize(Roles = "Manager")]
 		public async Task<IActionResult> GetCompanies() // Since there is no [Route] attr. this's route is api/companies. IActioResult returns result + status code.

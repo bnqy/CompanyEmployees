@@ -59,6 +59,8 @@ builder.Services.AddAuthentication();
 builder.Services.ConfigIdentity();
 builder.Services.ConfigJWT(builder.Configuration);
 
+builder.Services.ConfigSwagger();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -78,6 +80,13 @@ if (app.Environment.IsProduction())
 {
 	app.UseHsts();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+	c.SwaggerEndpoint("/swagger/v1/swagger.json", "Beneq API v1");
+	c.SwaggerEndpoint("/swagger/v2/swagger.json", "Beneq API v1");
+});
 
 app.UseHttpsRedirection();
 
