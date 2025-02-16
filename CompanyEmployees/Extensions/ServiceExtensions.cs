@@ -179,7 +179,7 @@ public static class ServiceExtensions
 	// Jwt config
 	public static void ConfigJWT(this IServiceCollection services, IConfiguration configuration)
 	{
-		var jwtSettings = configuration.GetSection("JwtSettins");
+		var jwtSettings = configuration.GetSection("JwtSettings");
 
 		services.AddAuthentication(opt =>
 		{
