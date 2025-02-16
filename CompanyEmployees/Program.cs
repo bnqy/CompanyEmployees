@@ -55,6 +55,9 @@ builder.Services.AddControllers(config =>
 
 builder.Services.AddCustomMediaTypes(); // links.
 
+builder.Services.AddAuthentication();
+builder.Services.ConfigIdentity();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -88,6 +91,7 @@ app.UseCors("CorsPolicy");
 app.UseResponseCaching(); // recommended after CORS
 app.UseHttpCacheHeaders();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
