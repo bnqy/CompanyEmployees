@@ -19,6 +19,7 @@ builder.Services.ConfigCors();
 builder.Services.ConfigIISIntegration();
 builder.Services.ConfigLoggerService();
 
+builder.Services.ConfigResponseCaching();
 builder.Services.ConfigVersioning();
 builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
 builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
@@ -41,6 +42,7 @@ builder.Services.AddControllers(config =>
 	config.RespectBrowserAcceptHeader = true;
 	config.ReturnHttpNotAcceptable = true; // 406 if media type supported
 	config.InputFormatters.Insert(0, GetJsonPatchInputFormatter()); // JSON patch requests
+	config.CacheProfiles.Add("60SecondsDuration", new CacheProfile { Duration = 60});
 })
 	.AddXmlDataContractSerializerFormatters()
 	.AddCustomCsvFormatter() // Custom CSV formatter
@@ -76,6 +78,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 	ForwardedHeaders = ForwardedHeaders.All
 });
 app.UseCors("CorsPolicy");
+app.UseResponseCaching(); // recommended after CORS
 
 app.UseAuthorization();
 

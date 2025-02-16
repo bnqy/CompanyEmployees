@@ -106,4 +106,10 @@ public static class ServiceExtensions
 			opt.ApiVersionReader = new HeaderApiVersionReader("api-version"); // Get version from header.
 		});
 	}
+
+	// Response Caching
+	public static void ConfigResponseCaching(this IServiceCollection services)
+	{
+		services.AddResponseCaching();
+	}
 }
